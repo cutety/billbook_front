@@ -22,7 +22,7 @@
           </el-col>
         </el-form-item>
         <el-form-item>
-          <el-input class="codeClass" placeholder="请输入验证码" v-model="loginForm.code"></el-input>
+          <el-input class="codeClass" placeholder="请输入验证码" v-model="loginForm.captcha"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit" class="form-confirm">登录</el-button>
@@ -44,9 +44,17 @@ export default {
         username: 'admin',
         password: 'admin'
       },
-      url: 'http://localhost:8282/api/kaptcha',
+      url: '',
+      captchaKey:'',
       fit: ['fill', 'contain', 'cover', 'none', 'scale-down']
     }
+  },
+  created() {
+    const _this =this;
+    this.axios.get('/captcha/init').then((response) => {
+      _this.url = response.data.base64Img
+      _this.captchaKey = response.data.captchaKey;
+    })
   },
   methods: {
     onSubmit() {
@@ -54,18 +62,20 @@ export default {
       this.axios.post("/user/login", {
         username: this.loginForm.username,
         password: this.loginForm.password,
+        captcha:this.loginForm.captcha,
+        captchaKey:this.captchaKey
       })
         .then(function (response) {
           console.log(response.data.status)
-          if(response.data.status === 200) {
+          if (response.data.status === 200) {
             console.log(response.data.msg)
             _this.$store.commit('login', response.data.object)
-             _this.$router.push({path: '/'})
+            _this.$router.push({path: '/'})
             //const path = _this.$route.query.redirect
             _this.$router.replace({path: path === undefined ? '/' : path})
-          } else if(response.data.status === 401){
+          } else if (response.data.status === 401) {
             alert(response.data.msg)
-          } else if(response.data.status === 4012){
+          } else if (response.data.status === 4012) {
             alert(response.data.msg)
           }
         })
@@ -77,7 +87,11 @@ export default {
       this.$router.replace('/register')
     },
     refreshCode() {
-
+      const _this =this;
+      this.axios.get('/captcha/'+this.captchaKey).then((response) => {
+        _this.url = response.data.base64Img
+        _this.captchaKey = response.data.captchaKey
+      })
     }
   }
 }
