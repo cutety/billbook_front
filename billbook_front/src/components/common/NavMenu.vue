@@ -37,17 +37,17 @@ export default {
         menuList: []
       },
       navList: [
-        {name: 'NoteNote', url: '/home'},
-        {name: '书架', url: '/bookshelf'},
+        {name: 'BillBook', url: '/home'},
+        {name: '记账', url: '/keepAccounts'},
       ],
     };
   },
   mounted() {
-    if (window.localStorage.getItem("user") != null) {
-      this.userFlag.name = JSON.parse(window.localStorage.getItem("user")).username
+    if (window.localStorage.getItem("token") != null) {
+      this.userFlag.name = JSON.parse(window.localStorage.getItem("userInfo")).username
       this.userFlag.menuList = [
         {url: '/home', name: '用户中心'},
-        {url: '/home', name: '笔记管理'},
+        {url: '/home', name: '账单管理'},
       ]
       this.isLogin = 'inline-block'
     } else {
@@ -64,8 +64,10 @@ export default {
       console.log(key, keyPath)
     },
     logout(){
-      var _this = this
-      this.axios.get('/logout')
+      window.localStorage.removeItem("token")
+      window.localStorage.removeItem("userInfo")
+      const _this = this
+      this.axios.post('/user/logout', this.$qs.stringify({username:this.userFlag.name}))
         .then(function (response) {
           if(response.data.status === 200){
             _this.$store.commit('logout')

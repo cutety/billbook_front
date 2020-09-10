@@ -5,15 +5,17 @@ import Register from "../components/Register";
 import Login from "../components/Login"
 import Index from "../components/Index";
 import Home from "../components/home/Home";
+import KeepAccounts from "../components/KeepAccounts/KeepAccounts";
+import ChargeUp from "../components/KeepAccounts/ChargeUp";
 Vue.use(Router)
 
 export default new Router({
   routes: [
-    {
+   /* {
       path: '/',
       name: 'HelloWorld',
       component: HelloWorld
-    },
+    },*/
     {
       path: '/register',
       name: 'Register',
@@ -35,6 +37,16 @@ export default new Router({
           name: 'Home',
           component: Home,
         },
+        {
+          path:'/keepAccounts',
+          name:'KeepAccounts',
+          component: KeepAccounts,
+        },
+        {
+          path: '/chargeUp',
+          name:'ChargeUp',
+          component: ChargeUp,
+        }
 
       ]
     },

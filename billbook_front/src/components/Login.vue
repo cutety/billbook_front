@@ -41,7 +41,7 @@ export default {
   data() {
     return {
       loginForm: {
-        username: 'admin',
+        username: 'iota',
         password: 'admin'
       },
       url: '',
@@ -66,16 +66,18 @@ export default {
         captchaKey:this.captchaKey
       })
         .then(function (response) {
-          console.log(response.data.status)
-          if (response.data.status === 200) {
+          if(response.data.status === "200") {
             console.log(response.data.msg)
-            _this.$store.commit('login', response.data.object)
+            console.log(response.data.token)
+            console.log(response.data.object)
+            window.localStorage.setItem("userInfo",response.data.object)
+            _this.$store.commit('login', response.data.token)
             _this.$router.push({path: '/'})
             //const path = _this.$route.query.redirect
             _this.$router.replace({path: path === undefined ? '/' : path})
-          } else if (response.data.status === 401) {
+          } else if (response.data.status === "401") {
             alert(response.data.msg)
-          } else if (response.data.status === 4012) {
+          } else if (response.data.status === "4012") {
             alert(response.data.msg)
           }
         })

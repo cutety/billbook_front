@@ -7,12 +7,19 @@ import router from './router'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
-import axios from 'axios'
+import axios from './plugins/axios'
 import VueAxios from 'vue-axios'
 
 import store from "./store";
 
 import qs from 'qs'
+
+import moment from "moment";
+
+Vue.filter('dateformat', function(dataStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
+  return moment(dataStr).format(pattern)
+
+})
 Vue.prototype.$qs = qs
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
@@ -41,6 +48,7 @@ router.beforeEach((to,from,next) =>{
 new Vue({
   el: '#app',
   router,
+  store:store,
   components: { App },
   template: '<App/>'
 })

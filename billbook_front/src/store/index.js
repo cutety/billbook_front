@@ -5,16 +5,16 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state:{
-    currentUser:window.localStorage.getItem('user') === null?'':JSON.parse(window.localStorage.getItem('user'))
+    currentUser:window.localStorage.getItem('token') === null?'':JSON.parse(window.localStorage.getItem('token'))
   },
   mutations:{
-    login(state,user){
-      state.currentUser = user
-      window.localStorage.setItem("user",JSON.stringify(user))
+    login(state,token){
+      state.currentUser = token
+      window.localStorage.setItem("token",JSON.stringify(token))
     },
     logout(state) {
       state.currentUser = null
-      window.localStorage.removeItem("user")
+      window.localStorage.removeItem("token")
     }
   }
 })
