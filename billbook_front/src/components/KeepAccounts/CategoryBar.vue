@@ -28,6 +28,7 @@ export default {
     this.axios.get("/bill/categories").then((response) => {
       console.log(response.data)
       _this.categories = response.data
+      this.$emit('categorySelect')
     })
   }
 }

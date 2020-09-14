@@ -46,11 +46,11 @@ export default {
     }
   },
   mounted() {
-    const _this = this;
-    this.axios.get("/bill/billType").then((response) => {
-      console.log(response.data)
-      _this.billType = response.data
-    })
+    // const _this = this;
+    // this.axios.get("/bill/billType").then((response) => {
+    //   console.log(response.data)
+    //   _this.billType = response.data
+    // })
   },
   methods:{
     editTitle(id) {
@@ -63,7 +63,7 @@ export default {
 
     },
     chargeUp(){
-
+      this.$emit("chargeUp");
     }
   }
 }

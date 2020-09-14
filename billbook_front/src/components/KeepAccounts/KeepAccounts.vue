@@ -1,7 +1,7 @@
 <template>
   <div>
     <category-bar @categorySelect="getCharges" ref="categoryBar"></category-bar>
-    <charge-up ref="charges" @editBill="handleEditBill"></charge-up>
+    <charge-up ref="charges" @editBill="handleEditBill" @chargeUp="handleChargeUp"></charge-up>
     <bill-edit-form ref="billEditForm" @updateInfo="getCharges"></bill-edit-form>
   </div>
 </template>
@@ -31,9 +31,24 @@ export default {
       })
     },
     handleEditBill(bill) {
+      const _this = this;
+      this.axios.get("/bill/billType").then((response) => {
+        console.log(response.data);
+        this.$refs.billEditForm.typeOptions = response.data
+      })
       this.$refs.billEditForm.dialogFormVisible=true;
       this.$refs.billEditForm.isCreate = false
       this.$refs.billEditForm.form = bill
+    },
+    handleChargeUp() {
+      const _this = this;
+      this.axios.get("/bill/billType").then((response) => {
+        console.log(response.data);
+        this.$refs.billEditForm.typeOptions = response.data
+      })
+      this.$refs.billEditForm.dialogFormVisible=true;
+      this.$refs.billEditForm.isCreate = true
+      this.$refs.billEditForm.form = {categoryId:1}
     }
   },
   mounted() {
